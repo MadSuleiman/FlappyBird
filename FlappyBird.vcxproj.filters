@@ -26,17 +26,17 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="bird.jpg">
+    <Image Include="bird.png">
       <Filter>Source Files</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="default.vert">
+    <Text Include="bird.vert">
       <Filter>Resource Files\Shaders</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <None Include="default.frag">
+    <None Include="bird.frag">
       <Filter>Resource Files\Shaders</Filter>
     </None>
   </ItemGroup>

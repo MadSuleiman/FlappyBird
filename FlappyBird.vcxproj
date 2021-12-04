@@ -155,13 +155,13 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="bird.jpg" />
+    <Image Include="bird.png" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="default.vert" />
+    <Text Include="bird.vert" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="default.frag" />
+    <None Include="bird.frag" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="shaderClass.h" />
