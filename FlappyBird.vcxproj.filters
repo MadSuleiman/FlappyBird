@@ -29,14 +29,20 @@
     <Image Include="bird.png">
       <Filter>Source Files</Filter>
     </Image>
+    <Image Include="floor.png">
+      <Filter>Source Files</Filter>
+    </Image>
+    <Image Include="pipes.png">
+      <Filter>Source Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="bird.vert">
+    <Text Include="default.vert">
       <Filter>Resource Files\Shaders</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <None Include="bird.frag">
+    <None Include="default.frag">
       <Filter>Resource Files\Shaders</Filter>
     </None>
   </ItemGroup>

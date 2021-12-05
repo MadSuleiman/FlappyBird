@@ -156,12 +156,14 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="bird.png" />
+    <Image Include="floor.png" />
+    <Image Include="pipes.png" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="bird.vert" />
+    <Text Include="default.vert" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="bird.frag" />
+    <None Include="default.frag" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="shaderClass.h" />

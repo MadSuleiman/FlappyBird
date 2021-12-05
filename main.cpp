@@ -14,6 +14,31 @@ void processInput(GLFWwindow* window) {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
 }
+void displayFunc(GLuint textureBird, GLuint textureFloor, GLuint texturePipes, unsigned int VAO, unsigned int VAOFloor, unsigned int VAOPipes) {
+	// bind bird Texture
+	glBindTexture(GL_TEXTURE_2D, textureBird);
+
+	// render container
+	glBindVertexArray(VAO);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+	// bind floor Texture
+	glBindTexture(GL_TEXTURE_2D, textureFloor);
+
+	// render container
+	glBindVertexArray(VAOFloor);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+	// bind floor Texture
+	glBindTexture(GL_TEXTURE_2D, texturePipes);
+
+	// render container
+	glBindVertexArray(VAOPipes);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+}
+void moveObjects() {
+
+}
 int main() {
 	glfwInit();
 
@@ -22,7 +47,7 @@ int main() {
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 
-	GLFWwindow* window = glfwCreateWindow(1000, 1000, "FlappyBird", NULL, NULL);
+	GLFWwindow* window = glfwCreateWindow(1200, 900, "FlappyBird", NULL, NULL);
 
 	if (window == NULL) {
 		std::cout << "Failed to create window.";
@@ -41,7 +66,7 @@ int main() {
 	}
 
     // build and compile our shader program
-	Shader ourShader("bird.vert", "bird.frag");
+	Shader ourShader("default.vert", "default.frag");
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
 	float vertices[] = {
@@ -78,10 +103,94 @@ int main() {
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
 	glEnableVertexAttribArray(2);
 
+	float verticesFloor[] = {     
+		// positions          // colors           // texture coords
+		1.0f,  -0.70f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // top right
+		1.0f, -1.0f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // bottom right
+		-1.0f, -1.0f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // bottom left
+		-1.0f,  -0.7f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // top left  
+	};
+	unsigned int indicesFloor[] = {
+	   0, 1, 3, // first triangle
+	   1, 2, 3  // second triangle
+	};
+
+	unsigned int VBOFloor, VAOFloor, EBOFloor;
+	glGenVertexArrays(1, &VAOFloor);
+	glGenBuffers(1, &VBOFloor);
+	glGenBuffers(1, &EBOFloor);
+
+	glBindVertexArray(VAOFloor);
+
+	glBindBuffer(GL_ARRAY_BUFFER, VBOFloor);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(verticesFloor), verticesFloor, GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBOFloor);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indicesFloor), indicesFloor, GL_STATIC_DRAW);
+
+	// position attribute
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+	// color attribute
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
+	// texture coord attribute
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+	glEnableVertexAttribArray(2);
+
+	float verticesPipes[] = {
+		// positions          // colors           // texture coords
+		1.0f,  1.0f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // top right
+		1.0f, -0.70f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // bottom right
+		0.75f, -0.70f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // bottom left
+		0.75f,  1.0f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // top left  
+	};
+	unsigned int indicesPipes[] = {
+	   0, 1, 3, // first triangle
+	   1, 2, 3  // second triangle
+	};
+
+	unsigned int VBOPipes, VAOPipes, EBOPipes;
+	glGenVertexArrays(1, &VAOPipes);
+	glGenBuffers(1, &VBOPipes);
+	glGenBuffers(1, &EBOPipes);
+
+	glBindVertexArray(VAOPipes);
+
+	glBindBuffer(GL_ARRAY_BUFFER, VBOPipes);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(verticesPipes), verticesPipes, GL_STREAM_DRAW);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBOPipes);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indicesPipes), indicesPipes, GL_STATIC_DRAW);
+
+	// position attribute
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+	// color attribute
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
+	// texture coord attribute
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+	glEnableVertexAttribArray(2);
+
 	//Using soil to load a bird with ease...
-	GLuint texture = SOIL_load_OGL_texture
+	GLuint textureBird = SOIL_load_OGL_texture
 	(
 		"bird.png",
+		SOIL_LOAD_AUTO,
+		SOIL_CREATE_NEW_ID,
+		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT
+	);
+	GLuint textureFloor = SOIL_load_OGL_texture
+	(
+		"floor.png",
+		SOIL_LOAD_AUTO,
+		SOIL_CREATE_NEW_ID,
+		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT
+	);
+	GLuint texturePipes = SOIL_load_OGL_texture
+	(
+		"pipes.png",
 		SOIL_LOAD_AUTO,
 		SOIL_CREATE_NEW_ID,
 		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT
@@ -92,16 +201,11 @@ int main() {
 		processInput(window);
 
 		//render
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		glClearColor(0.0f, 0.7f, 1.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 		
-		// bind Texture
-		glBindTexture(GL_TEXTURE_2D, texture);
-
-		// render container
 		ourShader.Activate();
-		glBindVertexArray(VAO);
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		displayFunc(textureBird, textureFloor, texturePipes, VAO, VAOFloor, VAOPipes);
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		glfwSwapBuffers(window);
@@ -115,6 +219,6 @@ int main() {
 	glfwDestroyWindow(window);
 	glfwTerminate();
 	return 0;
-
 }
+
 
