@@ -5,20 +5,11 @@
 
 class pipes {
 public:
-	float vertices[20] = {
-		// positions          // colors           // texture coords
-		1.0f,  1.0f, 0.0f,      1.0f, 1.0f,   // top right
-		1.0f, -0.70f, 0.0f,     1.0f, 0.0f,   // bottom right
-		0.75f, -0.70f, 0.0f,    0.0f, 0.0f,   // bottom left
-		0.75f,  1.0f, 0.0f,     0.0f, 1.0f    // top left  
-	};
-	unsigned int indices[6] = {
-	   0, 1, 3, // first triangle
-	   1, 2, 3  // second triangle
-	};
+	float spot;
+	float speed = 0.0005f;
 	unsigned int VAO, VBO, EBO;
 	GLuint texture;
-	pipes();
+	pipes(float t1);
 	void reinit();
 	void del();
 };

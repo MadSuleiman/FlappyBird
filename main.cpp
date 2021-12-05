@@ -31,7 +31,7 @@ void processInput(GLFWwindow* window, bird* b) {
 	}
 
 }
-void displayFunc(bird b, ground g, pipes p) {
+void displayFunc(bird b, ground g, pipes p, pipes p2) {
 	// bind bird Texture
 	glBindTexture(GL_TEXTURE_2D, b.texture);
 
@@ -54,16 +54,20 @@ void displayFunc(bird b, ground g, pipes p) {
 	glBindVertexArray(p.VAO);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
+
+	// bind floor Texture
+	glBindTexture(GL_TEXTURE_2D, p2.texture);
+
+	// render container
+	glBindVertexArray(p2.VAO);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
 }
 
-void moveObjects(bird b, pipes p, float speed) {
-	//if (float(glfwGetTime() / speed) <= 0.60f) {
-	//	b.reinit(float(glfwGetTime() / speed));
-	//}
-	//if (speed <= 0.60f) {
-		b.reinit(speed);
-	//}
-	
+void moveObjects(bird* b, pipes* p, pipes* p2, float gravity) {
+	b->reinit(gravity);
+	p->reinit();
+	p2->reinit();
 }
 int main() {
 	glfwInit();
@@ -98,8 +102,9 @@ int main() {
 	//Create our objects for the three main sprites.
 	bird* b = new bird;
 	ground g;
-	pipes p;
-	float speed = 5.0f;
+	pipes* p = new pipes(0);
+	pipes* p2 = new pipes(1.125);
+
 	while (!glfwWindowShouldClose(window)) {
 		//input
 		processInput(window, b);
@@ -109,20 +114,12 @@ int main() {
 		glClear(GL_COLOR_BUFFER_BIT);
 		
 		ourShader.Activate();
-		
 
-		//// create transformations
-		//glm::mat4 transform = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
-		//transform = glm::rotate(transform, (float)glfwGetTime(), glm::vec3(1.0f, 0.0f, 0.0f));
+		p->speed += 0.0005f;
+		p2->speed += 0.0005f;
+		moveObjects(b, p,p2, b->gravity);
 
-
-		//unsigned int transformLoc = glGetUniformLocation(ourShader.ID, "transform");
-		//glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
-		//b->gravity = b->gravity + 0.005f;
-		moveObjects(*b, p, b->gravity);
-		//speed = speed * 0.999f;
-
-		displayFunc(*b, g, p);
+		displayFunc(*b, g, *p, *p2);
 		
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		glfwSwapBuffers(window);
@@ -132,7 +129,7 @@ int main() {
 
 	b->del();
 	g.del();
-	p.del();
+	p->del();
 	
 	glfwDestroyWindow(window);
 	glfwTerminate();

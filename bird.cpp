@@ -80,14 +80,8 @@ void bird::reinit(float gravity) {
 		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 		glEnableVertexAttribArray(1);
 	}
-	
 };
-//void bird::gravity() {
-//	vertices[1] = vertices[1] - gravitySpeed;
-//	vertices[6] = vertices[6] - gravitySpeed;
-//	vertices[11] = vertices[11] - gravitySpeed;
-//	vertices[16] = vertices[16] - gravitySpeed;
-//}
+
  void bird::del() {
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
