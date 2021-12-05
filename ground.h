@@ -8,5 +8,6 @@ public:
 	unsigned int VAO, VBO, EBO;
 	GLuint texture;
 	ground();
+	void reinit();
 	void del();
 };

@@ -6,6 +6,7 @@
 #include"bird.h"
 #include"pipes.h"
 #include"ground.h"
+#include<ctime>
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
@@ -17,31 +18,33 @@ void processInput(GLFWwindow* window) {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
 }
-void displayFunc(GLuint textureBird, GLuint textureFloor, GLuint texturePipes, unsigned int VAO, unsigned int VAOFloor, unsigned int VAOPipes) {
+void displayFunc(bird b, ground g, pipes p) {
 	// bind bird Texture
-	glBindTexture(GL_TEXTURE_2D, textureBird);
+	glBindTexture(GL_TEXTURE_2D, b.texture);
 
 	// render container
-	glBindVertexArray(VAO);
+	glBindVertexArray(b.VAO);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+	
+	// bind floor Texture
+	glBindTexture(GL_TEXTURE_2D, g.texture);
+
+	// render container
+	glBindVertexArray(g.VAO);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 	// bind floor Texture
-	glBindTexture(GL_TEXTURE_2D, textureFloor);
+	glBindTexture(GL_TEXTURE_2D, p.texture);
 
 	// render container
-	glBindVertexArray(VAOFloor);
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-
-	// bind floor Texture
-	glBindTexture(GL_TEXTURE_2D, texturePipes);
-
-	// render container
-	glBindVertexArray(VAOPipes);
+	glBindVertexArray(p.VAO);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 
-void moveObjects() {
-
+void moveObjects(bird b, pipes p) {
+	b.gravitySpeed += 0.01f;
+	b.gravity();
+	b.reinit();
 }
 int main() {
 	glfwInit();
@@ -71,10 +74,11 @@ int main() {
 
     // build and compile our shader program
 	Shader ourShader("default.vert", "default.frag");
+
+	//Create our objects for the three main sprites.
 	bird b;
+	ground g;
 	pipes p;
-	ground f;
-	
 
 	while (!glfwWindowShouldClose(window)) {
 		//input
@@ -85,16 +89,20 @@ int main() {
 		glClear(GL_COLOR_BUFFER_BIT);
 		
 		ourShader.Activate();
-		displayFunc(b.texture, f.texture, p.texture, b.VAO, f.VAO, p.VAO);
+		displayFunc(b,g,p);
 
+		moveObjects(b, p);
+		
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		glfwSwapBuffers(window);
 		glfwPollEvents();
+		
 	}
 
+	b.del();
+	g.del();
+	p.del();
 	
-	
-
 	glfwDestroyWindow(window);
 	glfwTerminate();
 	return 0;
