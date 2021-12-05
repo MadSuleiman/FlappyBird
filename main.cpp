@@ -24,10 +24,12 @@ void processInput(GLFWwindow* window, bird* b) {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
 	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
-		b->gravity = b->gravity - 0.001f;
+		if(b->gravity>-0.9f)
+			b->gravity = b->gravity - 0.001f;
 	}
 	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
-		b->gravity = b->gravity + 0.001f;
+		if(b->gravity < 0.6f)
+			b->gravity = b->gravity + 0.001f;
 	}
 
 }
@@ -130,7 +132,7 @@ int main() {
 	b->del();
 	g.del();
 	p->del();
-	
+	p2->del();
 	glfwDestroyWindow(window);
 	glfwTerminate();
 	return 0;

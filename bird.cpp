@@ -52,7 +52,7 @@ void bird::reinit(float gravity) {
 		-0.60f, -0.10f, 0.0f,     0.0f, 0.0f,   // bottom left
 		-0.60f,  0.10f, 0.0f,     0.0f, 1.0f    // top left 
 	};
-	if (vertices[6] - gravity > -0.7f && vertices[6] - gravity < 1.0f) {
+	if (vertices[6] - gravity > -0.7f && vertices[1] - gravity < 1.0f) {
 		vertices[1] = vertices[1] - gravity;
 		vertices[6] = vertices[6] - gravity;
 		vertices[11] = vertices[11] - gravity;
