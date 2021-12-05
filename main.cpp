@@ -8,6 +8,10 @@
 #include"ground.h"
 #include<ctime>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
 	glViewport(0, 0, width, height);
@@ -42,9 +46,9 @@ void displayFunc(bird b, ground g, pipes p) {
 }
 
 void moveObjects(bird b, pipes p) {
-	b.gravitySpeed += 0.01f;
-	b.gravity();
-	b.reinit();
+	//b.gravitySpeed += 0.01f;
+	//b.gravity();
+	//b.reinit();
 }
 int main() {
 	glfwInit();
