@@ -43,6 +43,7 @@ void displayFunc(bird b, ground g, pipes p) {
 	// render container
 	glBindVertexArray(p.VAO);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+	
 }
 
 void moveObjects(bird b, pipes p) {
@@ -93,9 +94,18 @@ int main() {
 		glClear(GL_COLOR_BUFFER_BIT);
 		
 		ourShader.Activate();
-		displayFunc(b,g,p);
+		
 
+		// create transformations
+		glm::mat4 transform = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
+		transform = glm::rotate(transform, (float)glfwGetTime(), glm::vec3(1.0f, 0.0f, 0.0f));
+
+		
+		unsigned int transformLoc = glGetUniformLocation(ourShader.ID, "transform");
+		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
 		moveObjects(b, p);
+
+		displayFunc(b, g, p);
 		
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		glfwSwapBuffers(window);

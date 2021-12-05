@@ -5,6 +5,7 @@
 
 class ground {
 public:
+	
 	float vertices[20] = {
 		// positions        // texture coords
 		1.0f,  -0.70f, 0.0f,    1.0f, 1.0f,   // top right
