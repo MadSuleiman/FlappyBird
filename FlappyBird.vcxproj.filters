@@ -24,12 +24,21 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="bird.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pipes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="bird.png">
       <Filter>Source Files</Filter>
     </Image>
-    <Image Include="floor.png">
+    <Image Include="ground.png">
       <Filter>Source Files</Filter>
     </Image>
     <Image Include="pipes.png">
@@ -48,6 +57,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="shaderClass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bird.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pipes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ground.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -151,12 +151,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="bird.cpp" />
+    <ClCompile Include="ground.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="pipes.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="bird.png" />
-    <Image Include="floor.png" />
+    <Image Include="ground.png" />
     <Image Include="pipes.png" />
   </ItemGroup>
   <ItemGroup>
@@ -166,6 +169,9 @@
     <None Include="default.frag" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bird.h" />
+    <ClInclude Include="ground.h" />
+    <ClInclude Include="pipes.h" />
     <ClInclude Include="shaderClass.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
