@@ -1,7 +1,9 @@
 #include<iostream>
 #include<glad/glad.h>
+#include<KHR/khrplatform.h>
 #include<GLFW/glfw3.h>
 #include<SOIL2/SOIL2.h>
+#include<glut/glut.h>
 #include"shaderClass.h"
 #include"bird.h"
 #include"pipes.h"
@@ -21,6 +23,7 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
 void processInput(GLFWwindow* window) {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
+
 }
 void displayFunc(bird b, ground g, pipes p) {
 	// bind bird Texture
@@ -29,6 +32,7 @@ void displayFunc(bird b, ground g, pipes p) {
 	// render container
 	glBindVertexArray(b.VAO);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
 	
 	// bind floor Texture
 	glBindTexture(GL_TEXTURE_2D, g.texture);
@@ -36,20 +40,19 @@ void displayFunc(bird b, ground g, pipes p) {
 	// render container
 	glBindVertexArray(g.VAO);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-
+	glBindVertexArray(0);
 	// bind floor Texture
 	glBindTexture(GL_TEXTURE_2D, p.texture);
 
 	// render container
 	glBindVertexArray(p.VAO);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-	
+	glBindVertexArray(0);
 }
 
-void moveObjects(bird b, pipes p) {
-	//b.gravitySpeed += 0.01f;
-	//b.gravity();
-	//b.reinit();
+void moveObjects(bird b, pipes p, float speed) {
+
+	b.reinit(float(glfwGetTime()/speed));
 }
 int main() {
 	glfwInit();
@@ -79,12 +82,13 @@ int main() {
 
     // build and compile our shader program
 	Shader ourShader("default.vert", "default.frag");
+	Shader birdShader("bird.vert", "bird.frag");
 
 	//Create our objects for the three main sprites.
 	bird b;
 	ground g;
 	pipes p;
-
+	float speed = 5.0f;
 	while (!glfwWindowShouldClose(window)) {
 		//input
 		processInput(window);
@@ -96,14 +100,16 @@ int main() {
 		ourShader.Activate();
 		
 
-		// create transformations
-		glm::mat4 transform = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
-		transform = glm::rotate(transform, (float)glfwGetTime(), glm::vec3(1.0f, 0.0f, 0.0f));
+		//// create transformations
+		//glm::mat4 transform = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
+		//transform = glm::rotate(transform, (float)glfwGetTime(), glm::vec3(1.0f, 0.0f, 0.0f));
 
+
+		//unsigned int transformLoc = glGetUniformLocation(ourShader.ID, "transform");
+		//glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
 		
-		unsigned int transformLoc = glGetUniformLocation(ourShader.ID, "transform");
-		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
-		moveObjects(b, p);
+		moveObjects(b, p,speed);
+		speed = speed * 0.999f;
 
 		displayFunc(b, g, p);
 		

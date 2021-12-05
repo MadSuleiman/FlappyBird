@@ -166,6 +166,8 @@
     <Text Include="default.vert" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="bird.frag" />
+    <None Include="bird.vert" />
     <None Include="default.frag" />
   </ItemGroup>
   <ItemGroup>

@@ -5,7 +5,17 @@
 #include"bird.h"
 
 bird::bird() {
-
+	float vertices[20] = {
+		// positions          // texture coords
+		-0.4f,  0.10f, 0.0f,      1.0f, 1.0f,   // top right
+		-0.4f, -0.10f, 0.0f,      1.0f, 0.0f,   // bottom right
+		-0.60f, -0.10f, 0.0f,     0.0f, 0.0f,   // bottom left
+		-0.60f,  0.10f, 0.0f,     0.0f, 1.0f    // top left 
+	};
+	unsigned int indices[6] = {
+	   0, 1, 3, // first triangle
+	   1, 2, 3  // second triangle
+	};
 	texture = SOIL_load_OGL_texture
 	(
 		"bird.png",
@@ -21,7 +31,7 @@ bird::bird() {
 	glBindVertexArray(VAO);
 
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STREAM_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
@@ -29,15 +39,29 @@ bird::bird() {
 	// position attribute
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
+
 	// texture coord attribute
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
 }
-void bird::reinit() {
+void bird::reinit(float gravity) {
+	float vertices[20] = {
+		// positions          // texture coords
+		-0.4f,  0.10f-gravity, 0.0f,      1.0f, 1.0f,   // top right
+		-0.4f, -0.10f - gravity, 0.0f,      1.0f, 0.0f,   // bottom right
+		-0.60f, -0.10f - gravity, 0.0f,     0.0f, 0.0f,   // bottom left
+		-0.60f,  0.10f - gravity, 0.0f,     0.0f, 1.0f    // top left 
+	};
+
+	unsigned int indices[6] = {
+	   0, 1, 3, // first triangle
+	   1, 2, 3  // second triangle
+	};
+	glBindVertexArray(0);
 	glBindVertexArray(VAO);
 
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STREAM_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
@@ -49,12 +73,12 @@ void bird::reinit() {
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
 }
-void bird::gravity() {
-	vertices[1] = vertices[1] - gravitySpeed;
-	vertices[6] = vertices[6] - gravitySpeed;
-	vertices[11] = vertices[11] - gravitySpeed;
-	vertices[16] = vertices[16] - gravitySpeed;
-}
+//void bird::gravity() {
+//	vertices[1] = vertices[1] - gravitySpeed;
+//	vertices[6] = vertices[6] - gravitySpeed;
+//	vertices[11] = vertices[11] - gravitySpeed;
+//	vertices[16] = vertices[16] - gravitySpeed;
+//}
  void bird::del() {
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
