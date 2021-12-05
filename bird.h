@@ -8,7 +8,7 @@ public:
 	unsigned int VAO, VBO, EBO;
 	GLuint texture;
 	bird();
-	float gravity = 0.01f;
+	float gravity = 0.1f;
 	void reinit(float gravitySpeed);
 	void del();
 };

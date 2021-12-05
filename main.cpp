@@ -20,9 +20,15 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
 }
 
 // process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
-void processInput(GLFWwindow* window) {
+void processInput(GLFWwindow* window, bird* b) {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
+	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
+		b->gravity = b->gravity - 0.001f;
+	}
+	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
+		b->gravity = b->gravity + 0.001f;
+	}
 
 }
 void displayFunc(bird b, ground g, pipes p) {
@@ -51,8 +57,13 @@ void displayFunc(bird b, ground g, pipes p) {
 }
 
 void moveObjects(bird b, pipes p, float speed) {
-
-	b.reinit(float(glfwGetTime()/speed));
+	//if (float(glfwGetTime() / speed) <= 0.60f) {
+	//	b.reinit(float(glfwGetTime() / speed));
+	//}
+	//if (speed <= 0.60f) {
+		b.reinit(speed);
+	//}
+	
 }
 int main() {
 	glfwInit();
@@ -85,13 +96,13 @@ int main() {
 	Shader birdShader("bird.vert", "bird.frag");
 
 	//Create our objects for the three main sprites.
-	bird b;
+	bird* b = new bird;
 	ground g;
 	pipes p;
 	float speed = 5.0f;
 	while (!glfwWindowShouldClose(window)) {
 		//input
-		processInput(window);
+		processInput(window, b);
 
 		//render
 		glClearColor(0.0f, 0.7f, 1.0f, 1.0f);
@@ -107,11 +118,11 @@ int main() {
 
 		//unsigned int transformLoc = glGetUniformLocation(ourShader.ID, "transform");
 		//glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
-		
-		moveObjects(b, p,speed);
-		speed = speed * 0.999f;
+		//b->gravity = b->gravity + 0.005f;
+		moveObjects(*b, p, b->gravity);
+		//speed = speed * 0.999f;
 
-		displayFunc(b, g, p);
+		displayFunc(*b, g, p);
 		
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		glfwSwapBuffers(window);
@@ -119,7 +130,7 @@ int main() {
 		
 	}
 
-	b.del();
+	b->del();
 	g.del();
 	p.del();
 	
