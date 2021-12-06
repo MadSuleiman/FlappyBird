@@ -66,7 +66,15 @@ void displayEnd(generic end) {
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 }
-void displayFunc(bird b, ground g, pipes p, pipes p2) {
+void displayFunc(bird b, ground g, pipes p, pipes p2, generic clouds) {
+	// bind bird Texture
+	glBindTexture(GL_TEXTURE_2D, clouds.texture);
+
+	// render container
+	glBindVertexArray(clouds.VAO);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
+
 	// bind bird Texture
 	glBindTexture(GL_TEXTURE_2D, b.texture);
 
@@ -75,14 +83,7 @@ void displayFunc(bird b, ground g, pipes p, pipes p2) {
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 	
-	// bind floor Texture
-	glBindTexture(GL_TEXTURE_2D, g.texture);
-
-	// render container
-	glBindVertexArray(g.VAO);
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-	glBindVertexArray(0);
-	// bind floor Texture
+	// bind pipe Texture
 	glBindTexture(GL_TEXTURE_2D, p.texture);
 
 	// render container
@@ -90,13 +91,22 @@ void displayFunc(bird b, ground g, pipes p, pipes p2) {
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 
-	// bind floor Texture
+	// bind pipe Texture
 	glBindTexture(GL_TEXTURE_2D, p2.texture);
 
 	// render container
 	glBindVertexArray(p2.VAO);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
+
+	// bind floor Texture
+	glBindTexture(GL_TEXTURE_2D, g.texture);
+
+	// render container
+	glBindVertexArray(g.VAO);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
+	
 }
 void addSpeed(pipes* p, pipes* p2) {
 
@@ -113,7 +123,7 @@ void checkCollision(bird* b, pipes* p, pipes* p2) {
 	//checks if the right corners of the bird are the the same as the pipes
 	if ((b->vertices[0] >= p->vertices[15] && b->vertices[0] <= p->vertices[0])) {
 		//if it is, check if the correct height is met.
-		if (b->vertices[1] <= p->vertices[16] - 0.75f && b->vertices[1] >= p->vertices[16] - 1.0f) {
+		if (b->vertices[1] <= p->vertices[16] - 0.98f && b->vertices[1] >= p->vertices[16] - 1.45f) {
 			p->speed = 0.0005f; 
 			p2->speed = 0.0005f;
 		} else {
@@ -124,7 +134,7 @@ void checkCollision(bird* b, pipes* p, pipes* p2) {
 	}
 	if ((b->vertices[0] >= p2->vertices[15] && b->vertices[0] <= p2->vertices[0])) {
 		//if it is, check if the correct height is met.
-		if (b->vertices[1] <= p2->vertices[16] - 0.75f && b->vertices[1] >= p2->vertices[16] - 1.0f) {
+		if (b->vertices[1] <= p2->vertices[16] - 0.98f && b->vertices[1] >= p2->vertices[16] - 1.45f) {
 			p->speed = 0.0005f;
 			p2->speed = 0.0005f;
 		}
@@ -190,6 +200,14 @@ int main() {
 		-1.0f,  1.0f, 0.0f,     0.0f, 1.0f    // top left 
 	};
 	generic end("died.jpg", v3);
+	float v4[20] = {
+		// positions          // texture coords
+		1.0f,  1.0f, 0.0f,      1.0f, 1.0f,   // top right
+		1.0f, 0.6f, 0.0f,      1.0f, 0.0f,   // bottom right
+		-1.0f, 0.6f, 0.0f,     0.0f, 0.0f,   // bottom left
+		-1.0f,  1.0f, 0.0f,     0.0f, 1.0f    // top left 
+	};
+	generic clouds("clouds.gif", v4);
 
 
 	//Create our objects for the three main sprites.
@@ -210,7 +228,7 @@ int main() {
 		if(!gameStart && !gameEnd)
 			displayStart(logo, btn);
 		if (!gameEnd) {
-			displayFunc(*b, g, *p, *p2);
+			displayFunc(*b, g, *p, *p2, clouds);
 			if (gameStart) {
 				moveObjects(p, p2);
 				checkCollision(b, p, p2);

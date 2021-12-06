@@ -3,6 +3,7 @@
 #include<GLFW/glfw3.h>
 #include<SOIL2/SOIL2.h>
 #include"pipes.h"
+#include<random>
 
 pipes::pipes(float t1) {
 	vertices[0] = vertices[0] + t1;
@@ -69,6 +70,19 @@ void pipes::reinit() {
 		vertices[5] = 1.25f;
 		vertices[10] = 1.0f;
 		vertices[15] = 1.0f;
+		float temp = rand() % 60;
+		temp -= 30;
+		temp /= 100;
+		vertices[1]  = 1.3f;
+		vertices[6] = -1.0f;
+		vertices[11] = -1.0f;
+		vertices[16] = 1.3f;
+
+		vertices[1] += temp;
+		vertices[6] += temp;
+		vertices[11] += temp;
+		vertices[16] += temp;
+
 	}
 };
 void pipes::del() {
