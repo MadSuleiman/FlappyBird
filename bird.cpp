@@ -35,24 +35,12 @@ bird::bird() {
 	glEnableVertexAttribArray(1);
 }
 void bird::reinit(float gravity) {
-	//float vertices[20] = {
-	//	// positions          // texture coords
-	//	-0.4f,  0.10f, 0.0f,      1.0f, 1.0f,   // top right
-	//	-0.4f, -0.10f, 0.0f,      1.0f, 0.0f,   // bottom right
-	//	-0.60f, -0.10f, 0.0f,     0.0f, 0.0f,   // bottom left
-	//	-0.60f,  0.10f, 0.0f,     0.0f, 1.0f    // top left 
-	//};
+	
 	if (vertices[6] - gravity > -0.7f && vertices[1] - gravity < 1.0f) {
 		vertices[1] = vertices[1] - gravity;
 		vertices[6] = vertices[6] - gravity;
 		vertices[11] = vertices[11] - gravity;
 		vertices[16] = vertices[16] - gravity;
-
-
-		//unsigned int indices[6] = {
-		//   0, 1, 3, // first triangle
-		//   1, 2, 3  // second triangle
-		//};
 
 		glBindVertexArray(0);
 		glBindVertexArray(VAO);
