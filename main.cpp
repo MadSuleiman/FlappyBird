@@ -8,6 +8,7 @@
 #include"bird.h"
 #include"pipes.h"
 #include"ground.h"
+#include"generic.h"
 #include<ctime>
 
 #include <glm/glm.hpp>
@@ -15,6 +16,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 bool gameStart = false;
+bool gameEnd = false;
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
@@ -37,6 +39,23 @@ void processInput(GLFWwindow* window, bird* b) {
 		}
 	}
 
+}
+void displayStart(generic logo, generic btn) {
+	// bind bird Texture
+	glBindTexture(GL_TEXTURE_2D, logo.texture);
+
+	// render container
+	glBindVertexArray(logo.VAO);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
+
+	// bind floor Texture
+	glBindTexture(GL_TEXTURE_2D, btn.texture);
+
+	// render container
+	glBindVertexArray(btn.VAO);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
 }
 void displayFunc(bird b, ground g, pipes p, pipes p2) {
 	// bind bird Texture
@@ -86,6 +105,7 @@ void checkCollision(bird* b, pipes* p, pipes* p2) {
 			p->speed = 0.0f; //This is where you would add a gameover screen
 			p2->speed = 0.0f;
 			gameStart = false;
+			gameEnd = true;
 		}
 	}
 	if ((b->vertices[0] >= p2->vertices[15] && b->vertices[0] <= p2->vertices[0])) {
@@ -98,6 +118,7 @@ void checkCollision(bird* b, pipes* p, pipes* p2) {
 			p->speed = 0.0f; //This is where you would add a gameover screen
 			p2->speed = 0.0f;
 			gameStart = false;
+			gameEnd = true;
 		}
 	}
 
@@ -136,7 +157,24 @@ int main() {
 
     // build and compile our shader program
 	Shader ourShader("default.vert", "default.frag");
-	Shader birdShader("bird.vert", "bird.frag");
+
+	//Create an object for our logo and start button
+	float v1[20] = {
+		// positions          // texture coords
+		0.4f,  0.70f, 0.0f,      1.0f, 1.0f,   // top right
+		0.4f, 0.40f, 0.0f,      1.0f, 0.0f,   // bottom right
+		-0.40f, 0.40f, 0.0f,     0.0f, 0.0f,   // bottom left
+		-0.40f,  0.70f, 0.0f,     0.0f, 1.0f    // top left 
+	};
+	generic logo("logo.png", v1);
+	float v2[20] = {
+		// positions          // texture coords
+		0.2f,  -0.30f, 0.0f,      1.0f, 1.0f,   // top right
+		0.2f, -0.60f, 0.0f,      1.0f, 0.0f,   // bottom right
+		-0.20f, -0.60f, 0.0f,     0.0f, 0.0f,   // bottom left
+		-0.20f,  -0.30f, 0.0f,     0.0f, 1.0f    // top left 
+	};
+	generic btn("playbtn.png", v2);
 
 	//Create our objects for the three main sprites.
 	bird* b = new bird;
@@ -152,6 +190,9 @@ int main() {
 		glClear(GL_COLOR_BUFFER_BIT);
 		
 		ourShader.Activate();
+		
+		if(!gameStart && !gameEnd)
+			displayStart(logo, btn);
 
 		displayFunc(*b, g, *p, *p2);
 		if (gameStart) {

@@ -44,6 +44,12 @@
     <Image Include="pipes.png">
       <Filter>Source Files</Filter>
     </Image>
+    <Image Include="cloud.png">
+      <Filter>Source Files</Filter>
+    </Image>
+    <Image Include="playbtn.png">
+      <Filter>Source Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Text Include="default.vert">

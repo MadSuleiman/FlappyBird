@@ -14,21 +14,15 @@ public:
 	};
 	unsigned int VAO, VBO, EBO;
 	GLuint texture;
-	generic(float place[]);
+	generic(const char* fileName, float place[]);
 	void reinit(float speed);
 	void del();
 };
 
-#include<iostream>
-#include<glad/glad.h>
-#include<GLFW/glfw3.h>
-#include<SOIL2/SOIL2.h>
-#include"ground.h"
-
-generic::generic(float place[]) {
+generic::generic(const char* fileName, float place[]) {
 	texture = SOIL_load_OGL_texture
 	(
-		"ground.png",
+		fileName,
 		SOIL_LOAD_AUTO,
 		SOIL_CREATE_NEW_ID,
 		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT

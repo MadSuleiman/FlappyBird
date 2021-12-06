@@ -159,8 +159,10 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="bird.png" />
+    <Image Include="cloud.png" />
     <Image Include="ground.png" />
     <Image Include="pipes.png" />
+    <Image Include="playbtn.png" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="default.vert" />
