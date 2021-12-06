@@ -7,10 +7,10 @@ class bird {
 public:
 	float vertices[20] = {
 		// positions          // texture coords
-		-0.4f,  0.10f, 0.0f,      1.0f, 1.0f,   // top right
-		-0.4f, -0.10f, 0.0f,      1.0f, 0.0f,   // bottom right
-		-0.60f, -0.10f, 0.0f,     0.0f, 0.0f,   // bottom left
-		-0.60f,  0.10f, 0.0f,     0.0f, 1.0f    // top left 
+		-0.43f,  0.07f, 0.0f,      1.0f, 1.0f,   // top right
+		-0.43f, -0.07f, 0.0f,      1.0f, 0.0f,   // bottom right
+		-0.57f, -0.07f, 0.0f,     0.0f, 0.0f,   // bottom left
+		-0.57f,  0.07f, 0.0f,     0.0f, 1.0f    // top left 
 	};
 	unsigned int indices[6] = {
 	   0, 1, 3, // first triangle

@@ -57,6 +57,15 @@ void displayStart(generic logo, generic btn) {
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 }
+void displayEnd(generic end) {
+	// bind bird Texture
+	glBindTexture(GL_TEXTURE_2D, end.texture);
+
+	// render container
+	glBindVertexArray(end.VAO);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
+}
 void displayFunc(bird b, ground g, pipes p, pipes p2) {
 	// bind bird Texture
 	glBindTexture(GL_TEXTURE_2D, b.texture);
@@ -89,7 +98,13 @@ void displayFunc(bird b, ground g, pipes p, pipes p2) {
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 }
+void addSpeed(pipes* p, pipes* p2) {
 
+}
+void endGame() {
+	gameStart = false;
+	gameEnd = true;
+}
 void moveObjects(pipes* p, pipes* p2) {
 	p->reinit();
 	p2->reinit();
@@ -104,8 +119,7 @@ void checkCollision(bird* b, pipes* p, pipes* p2) {
 		} else {
 			p->speed = 0.0f; //This is where you would add a gameover screen
 			p2->speed = 0.0f;
-			gameStart = false;
-			gameEnd = true;
+			endGame();
 		}
 	}
 	if ((b->vertices[0] >= p2->vertices[15] && b->vertices[0] <= p2->vertices[0])) {
@@ -117,18 +131,11 @@ void checkCollision(bird* b, pipes* p, pipes* p2) {
 		else {
 			p->speed = 0.0f; //This is where you would add a gameover screen
 			p2->speed = 0.0f;
-			gameStart = false;
-			gameEnd = true;
+			endGame();
 		}
 	}
+}
 
-}
-void addSpeed(pipes* p, pipes* p2) {
-	
-}
-void endGame() {
-
-}
 int main() {
 	glfwInit();
 
@@ -175,6 +182,15 @@ int main() {
 		-0.20f,  -0.30f, 0.0f,     0.0f, 1.0f    // top left 
 	};
 	generic btn("playbtn.png", v2);
+	float v3[20] = {
+		// positions          // texture coords
+		1.0f,  1.0f, 0.0f,      1.0f, 1.0f,   // top right
+		1.0f, -1.0f, 0.0f,      1.0f, 0.0f,   // bottom right
+		-1.0f, -1.0f, 0.0f,     0.0f, 0.0f,   // bottom left
+		-1.0f,  1.0f, 0.0f,     0.0f, 1.0f    // top left 
+	};
+	generic end("died.jpg", v3);
+
 
 	//Create our objects for the three main sprites.
 	bird* b = new bird;
@@ -193,13 +209,18 @@ int main() {
 		
 		if(!gameStart && !gameEnd)
 			displayStart(logo, btn);
-
-		displayFunc(*b, g, *p, *p2);
-		if (gameStart) {
-			moveObjects(p, p2);
-			checkCollision(b, p, p2);
-			addSpeed(p, p2);
+		if (!gameEnd) {
+			displayFunc(*b, g, *p, *p2);
+			if (gameStart) {
+				moveObjects(p, p2);
+				checkCollision(b, p, p2);
+				addSpeed(p, p2);
+			}
 		}
+		else {
+			displayEnd(end);
+		}
+		
 		
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		glfwSwapBuffers(window);

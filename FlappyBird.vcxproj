@@ -160,6 +160,7 @@
   <ItemGroup>
     <Image Include="bird.png" />
     <Image Include="cloud.png" />
+    <Image Include="died.jpg" />
     <Image Include="ground.png" />
     <Image Include="pipes.png" />
     <Image Include="playbtn.png" />
