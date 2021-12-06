@@ -64,6 +64,7 @@ void pipes::reinit() {
 		glEnableVertexAttribArray(1);
 	}
 	else {
+		pointAdd = false;
 		vertices[0] = 1.25f;
 		vertices[5] = 1.25f;
 		vertices[10] = 1.0f;

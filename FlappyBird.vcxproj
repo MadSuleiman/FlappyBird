@@ -172,6 +172,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bird.h" />
+    <ClInclude Include="generic.h" />
     <ClInclude Include="ground.h" />
     <ClInclude Include="pipes.h" />
     <ClInclude Include="shaderClass.h" />

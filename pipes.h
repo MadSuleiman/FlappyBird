@@ -7,6 +7,7 @@ class pipes {
 public:
 	float spot;
 	float speed = 0.0005f;
+	bool pointAdd = false;
 	float vertices[20] = {
 		// positions          // colors           // texture coords
 		1.25f,  1.0f, 0.0f,      1.0f, 1.0f,   // top right

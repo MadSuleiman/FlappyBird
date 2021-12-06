@@ -14,6 +14,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+bool gameStart = false;
+
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
 	glViewport(0, 0, width, height);
@@ -23,11 +25,16 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
 void processInput(GLFWwindow* window, bird* b) {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
-	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
-		b->reinit(-b->gravity);
+	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
+		gameStart = true;
 	}
-	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
-		b->reinit((b->gravity));
+	if (gameStart) {
+		if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
+			b->reinit(-b->gravity);
+		}
+		if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
+			b->reinit((b->gravity));
+		}
 	}
 
 }
@@ -64,21 +71,42 @@ void displayFunc(bird b, ground g, pipes p, pipes p2) {
 	glBindVertexArray(0);
 }
 
-void moveObjects(bird* b, pipes* p, pipes* p2, float gravity) {
+void moveObjects(pipes* p, pipes* p2) {
 	p->reinit();
 	p2->reinit();
 }
 void checkCollision(bird* b, pipes* p, pipes* p2) {
-	if ((b->vertices[0] >= p->vertices[15] && b->vertices[0] <= p->vertices[0]) || (b->vertices[0] >= p2->vertices[15] && b->vertices[0] <= p2->vertices[0])) {
-		if (b->vertices[1] <= p->vertices[16] - 0.75f && b->vertices[1] >= p->vertices[16] - 1.25f) {
+	//checks if the right corners of the bird are the the same as the pipes
+	if ((b->vertices[0] >= p->vertices[15] && b->vertices[0] <= p->vertices[0])) {
+		//if it is, check if the correct height is met.
+		if (b->vertices[1] <= p->vertices[16] - 0.75f && b->vertices[1] >= p->vertices[16] - 1.0f) {
+			p->speed = 0.0005f; 
+			p2->speed = 0.0005f;
+		} else {
+			p->speed = 0.0f; //This is where you would add a gameover screen
+			p2->speed = 0.0f;
+			gameStart = false;
+		}
+	}
+	if ((b->vertices[0] >= p2->vertices[15] && b->vertices[0] <= p2->vertices[0])) {
+		//if it is, check if the correct height is met.
+		if (b->vertices[1] <= p2->vertices[16] - 0.75f && b->vertices[1] >= p2->vertices[16] - 1.0f) {
 			p->speed = 0.0005f;
 			p2->speed = 0.0005f;
 		}
 		else {
-			p->speed = 0.0f;
+			p->speed = 0.0f; //This is where you would add a gameover screen
 			p2->speed = 0.0f;
+			gameStart = false;
 		}
 	}
+
+}
+void addSpeed(pipes* p, pipes* p2) {
+	
+}
+void endGame() {
+
 }
 int main() {
 	glfwInit();
@@ -113,9 +141,8 @@ int main() {
 	//Create our objects for the three main sprites.
 	bird* b = new bird;
 	ground g;
-	pipes* p = new pipes(0);
-	pipes* p2 = new pipes(1.125);
-
+	pipes* p = new pipes(-0.125f);
+	pipes* p2 = new pipes(1.0f);
 	while (!glfwWindowShouldClose(window)) {
 		//input
 		processInput(window, b);
@@ -126,10 +153,12 @@ int main() {
 		
 		ourShader.Activate();
 
-		
-		moveObjects(b, p,p2, b->gravity);
-		checkCollision(b, p, p2);
 		displayFunc(*b, g, *p, *p2);
+		if (gameStart) {
+			moveObjects(p, p2);
+			checkCollision(b, p, p2);
+			addSpeed(p, p2);
+		}
 		
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		glfwSwapBuffers(window);
