@@ -24,12 +24,10 @@ void processInput(GLFWwindow* window, bird* b) {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
 	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
-		if(b->gravity>-0.9f)
-			b->gravity = b->gravity - 0.001f;
+		b->reinit(-b->gravity);
 	}
 	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
-		if(b->gravity < 0.6f)
-			b->gravity = b->gravity + 0.001f;
+		b->reinit((b->gravity));
 	}
 
 }
@@ -67,9 +65,14 @@ void displayFunc(bird b, ground g, pipes p, pipes p2) {
 }
 
 void moveObjects(bird* b, pipes* p, pipes* p2, float gravity) {
-	b->reinit(gravity);
 	p->reinit();
 	p2->reinit();
+}
+void checkCollision(bird* b, pipes* p, pipes* p2) {
+	/*if (b->vertices[0] == p->vertices[15] || b->vertices[0] == p2->vertices[15]) {
+		p->speed = 0.0f;
+		p2->speed = 0.0f;
+	}*/
 }
 int main() {
 	glfwInit();
@@ -117,10 +120,9 @@ int main() {
 		
 		ourShader.Activate();
 
-		p->speed += 0.0005f;
-		p2->speed += 0.0005f;
+		
 		moveObjects(b, p,p2, b->gravity);
-
+		checkCollision(b, p, p2);
 		displayFunc(*b, g, *p, *p2);
 		
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)

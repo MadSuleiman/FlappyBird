@@ -5,18 +5,11 @@
 #include"pipes.h"
 
 pipes::pipes(float t1) {
-	spot = t1;
-	float vertices[20] = {
-		// positions          // colors           // texture coords
-		1.25f + spot,  1.0f, 0.0f,      1.0f, 1.0f,   // top right
-		1.25f + spot, -0.70f, 0.0f,     1.0f, 0.0f,   // bottom right
-		1.0f + spot, -0.70f, 0.0f,    0.0f, 0.0f,   // bottom left
-		1.0f + spot,  1.0f, 0.0f,     0.0f, 1.0f    // top left  
-	};
-	unsigned int indices[6] = {
-	   0, 1, 3, // first triangle
-	   1, 2, 3  // second triangle
-	};
+	vertices[0] = vertices[0] + t1;
+	vertices[5] = vertices[5] + t1;
+	vertices[10] = vertices[10] + t1;
+	vertices[15] = vertices[15] + t1;
+	
 	texture = SOIL_load_OGL_texture
 	(
 		"pipes.png",
@@ -46,24 +39,13 @@ pipes::pipes(float t1) {
 }
 
 void pipes::reinit() {
-	float vertices[20] = {
-		// positions          // colors           // texture coords
-		1.25f + spot,  1.0f, 0.0f,      1.0f, 1.0f,   // top right
-		1.25f + spot, -0.70f, 0.0f,     1.0f, 0.0f,   // bottom right
-		1.0f + spot, -0.70f, 0.0f,    0.0f, 0.0f,   // bottom left
-		1.0f + spot,  1.0f, 0.0f,     0.0f, 1.0f    // top left  
-	};
-	if (vertices[0] - speed > -1.0f) {
+	
+	if (vertices[0] > -1.0f) {
 		vertices[0] = vertices[0] - speed;
 		vertices[5] = vertices[5] - speed;
 		vertices[10] = vertices[10] - speed;
 		vertices[15] = vertices[15] - speed;
 
-
-		unsigned int indices[6] = {
-		   0, 1, 3, // first triangle
-		   1, 2, 3  // second triangle
-		};
 
 		glBindVertexArray(0);
 		glBindVertexArray(VAO);
@@ -82,8 +64,10 @@ void pipes::reinit() {
 		glEnableVertexAttribArray(1);
 	}
 	else {
-		speed = 0.0005f;
-		spot = 0;
+		vertices[0] = 1.25f;
+		vertices[5] = 1.25f;
+		vertices[10] = 1.0f;
+		vertices[15] = 1.0f;
 	}
 };
 void pipes::del() {
