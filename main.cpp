@@ -69,9 +69,15 @@ void moveObjects(bird* b, pipes* p, pipes* p2, float gravity) {
 	p2->reinit();
 }
 void checkCollision(bird* b, pipes* p, pipes* p2) {
-	if (b->vertices[0] >= p->vertices[15] || b->vertices[0] >= p2->vertices[15]) {
-		p->speed = 0.0f;
-		p2->speed = 0.0f;
+	if ((b->vertices[0] >= p->vertices[15] && b->vertices[0] <= p->vertices[0]) || (b->vertices[0] >= p2->vertices[15] && b->vertices[0] <= p2->vertices[0])) {
+		if (b->vertices[1] <= p->vertices[16] - 0.75f && b->vertices[1] >= p->vertices[16] - 1.25f) {
+			p->speed = 0.0005f;
+			p2->speed = 0.0005f;
+		}
+		else {
+			p->speed = 0.0f;
+			p2->speed = 0.0f;
+		}
 	}
 }
 int main() {
