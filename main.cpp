@@ -109,7 +109,8 @@ void displayFunc(bird b, ground g, pipes p, pipes p2, generic clouds) {
 	
 }
 void addSpeed(pipes* p, pipes* p2) {
-
+	p->speed = 0.0005f + float(glfwGetTime()/10000);
+	p2->speed = 0.0005f + float(glfwGetTime()/10000);
 }
 void endGame() {
 	gameStart = false;
