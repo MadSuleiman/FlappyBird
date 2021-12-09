@@ -1,26 +1,24 @@
-SOURCES := $(shell echo $(./)*.cpp)
-DEPENDS = $(SOURCES:.h=.o)
-OBJECTS = $(SOURCES:.cpp=.d),$(SOURCES:.c=.d)
-OS = $(shell uname) # For Mac OS detection
-PROGRAM = flappybird
+CC = g++
 
-OPTFLAGS = -g
-CC=gcc
-CFLAGS   = -w $(OPTFLAGS) -ISOIL/includes -std=c++11 -pthread
+gamefile = main.cpp
 
-all: $(PROGRAM)
+ifdef OS
+	   exe = flappybird.exe
 
-$(PROGRAM):$(OBJECTS)
-	$(CC) $(CFLAGS) $^ $(LDFLAGS) -o $@
+	   comp = -glfw3 -SOIL -opengl32 -o
+else
+	   ifeq ($(shell uname), Linux)
+		  exe = flappybird.exe 
+
+		  comp = ./libraries/lib/glfw3.lib ./libraries/lib/SOIL2.lib -lGl -o
+	   endif
+endif
+
+all:
+	$(CC) $(gamefile) $(comp) $(exe) 
+
+run: 
+	./$(exe)
 
 clean:
-	$(RM) $(OBJECTS) $(DEPENDS)
-	$(RM) $(PROGRAM)
-	$(RM) *~
-
-
-%.o: %.h
-	$(CC) -c $(CFLAGS) $< -o $@
-
-%.d: %.cpp
-	$(CC) -MM $(CFLAGS) $< > $@
+	rm -f flappybird.exe

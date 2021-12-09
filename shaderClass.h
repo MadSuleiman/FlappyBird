@@ -1,9 +1,9 @@
 #ifndef SHADER_CLASS_H
 #define SHADER_CLASS_H
 #include<iostream>
-#include<glad/glad.h>
-#include<GLFW/glfw3.h>
-#include<SOIL2/SOIL2.h>
+#include"glad/glad.h"
+#include"GLFW/glfw3.h"
+#include"SOIL2/SOIL2.h"
 #include<string>
 #include<fstream>
 #include<sstream>

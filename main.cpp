@@ -1,9 +1,8 @@
 #include<iostream>
-#include<glad/glad.h>
-#include<KHR/khrplatform.h>
-#include<GLFW/glfw3.h>
-#include<SOIL2/SOIL2.h>
-#include<glut/glut.h>
+#include"glad/glad.h"
+#include"KHR/khrplatform.h"
+#include"GLFW/glfw3.h"
+#include"SOIL2/SOIL2.h"
 #include"shaderClass.h"
 #include"bird.h"
 #include"pipes.h"
@@ -11,9 +10,6 @@
 #include"generic.h"
 #include<ctime>
 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
 
 bool gameStart = false;
 bool gameEnd = false;
