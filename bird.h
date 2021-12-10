@@ -1,7 +1,7 @@
 #include<iostream>
-#include"glad/glad.h"
-#include"GLFW/glfw3.h"
-#include"SOIL2/SOIL2.h"
+#include"Libraries/include/glad/glad.h"
+#include"Libraries/include/GLFW/glfw3.h"
+#include"Libraries/include/SOIL2/SOIL2.h"
 
 class bird {
 public:

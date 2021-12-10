@@ -1,12 +1,12 @@
 #include<iostream>
-#include"glad/glad.h"
-#include"GLFW/glfw3.h"
-#include"SOIL2/SOIL2.h"
+#include"Libraries/include/glad/glad.h"
+#include"Libraries/include/GLFW/glfw3.h"
+#include"Libraries/include/SOIL2/SOIL2.h"
 
 class pipes {
 public:
 	float spot;
-	float speed = 0.0005f;
+	float speed = 0.0002f;
 	bool pointAdd = false;
 	float vertices[20] = {
 		// positions          // colors           // texture coords

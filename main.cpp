@@ -1,8 +1,8 @@
 #include<iostream>
-#include"glad/glad.h"
-#include"KHR/khrplatform.h"
-#include"GLFW/glfw3.h"
-#include"SOIL2/SOIL2.h"
+#include"Libraries/include/glad/glad.h"
+#include"Libraries/include/KHR/khrplatform.h"
+#include"Libraries/include/GLFW/glfw3.h"
+#include"Libraries/include/SOIL2/SOIL2.h"
 #include"shaderClass.h"
 #include"bird.h"
 #include"pipes.h"
@@ -24,7 +24,10 @@ void processInput(GLFWwindow* window, bird* b) {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
 	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
-		gameStart = true;
+		if (!gameStart) {
+			glfwSetTime(0);
+			gameStart = true;
+		}
 	}
 	if (gameStart) {
 		if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
@@ -105,8 +108,8 @@ void displayFunc(bird b, ground g, pipes p, pipes p2, generic clouds) {
 	
 }
 void addSpeed(pipes* p, pipes* p2) {
-	p->speed = 0.0005f + float(glfwGetTime()/10000);
-	p2->speed = 0.0005f + float(glfwGetTime()/10000);
+	p->speed = 0.0002f + float(glfwGetTime()/10000);
+	p2->speed = 0.0002f + float(glfwGetTime()/10000);
 }
 void endGame() {
 	gameStart = false;
@@ -121,8 +124,8 @@ void checkCollision(bird* b, pipes* p, pipes* p2) {
 	if ((b->vertices[0] >= p->vertices[15] && b->vertices[0] <= p->vertices[0])) {
 		//if it is, check if the correct height is met.
 		if (b->vertices[1] <= p->vertices[16] - 0.98f && b->vertices[1] >= p->vertices[16] - 1.45f) {
-			p->speed = 0.0005f; 
-			p2->speed = 0.0005f;
+			/*p->speed = 0.0005f; 
+			p2->speed = 0.0005f;*/
 		} else {
 			p->speed = 0.0f; //This is where you would add a gameover screen
 			p2->speed = 0.0f;
@@ -132,8 +135,8 @@ void checkCollision(bird* b, pipes* p, pipes* p2) {
 	if ((b->vertices[0] >= p2->vertices[15] && b->vertices[0] <= p2->vertices[0])) {
 		//if it is, check if the correct height is met.
 		if (b->vertices[1] <= p2->vertices[16] - 0.98f && b->vertices[1] >= p2->vertices[16] - 1.45f) {
-			p->speed = 0.0005f;
-			p2->speed = 0.0005f;
+			/*p->speed = 0.0005f;
+			p2->speed = 0.0005f;*/
 		}
 		else {
 			p->speed = 0.0f; //This is where you would add a gameover screen

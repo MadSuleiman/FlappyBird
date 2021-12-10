@@ -5,12 +5,14 @@ gamefile = main.cpp
 ifdef OS
 	   exe = flappybird.exe
 
-	   comp = -glfw3 -SOIL -opengl32 -o
+	   comp = -Lwindows -lglew32 -lglfw3 -lopengl32 -lglu32 -lgdi32 -lsoil2 -o
+
+	   inc = -Ilibraries/include
 else
 	   ifeq ($(shell uname), Linux)
 		  exe = flappybird.exe 
 
-		  comp = ./libraries/lib/glfw3.lib ./libraries/lib/SOIL2.lib -lGl -o
+		  comp = ./libraries/lib/glfw3.lib ./libraries/lib/soil2.lib -lGl -o
 	   endif
 endif
 
