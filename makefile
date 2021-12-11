@@ -7,7 +7,7 @@ ifdef OS
 
 	   comp = -Lwindows -lglfw3 -lsoil2 -lglew32 -lopengl32 -lglu32 -lgdi32 -o
 
-	   inc = glad.c pipes.cpp bird.cpp ground.cpp shaderClass.cpp
+	   inc = glad.c
 else
 	   ifeq ($(shell uname), Linux)
 		  exe = flappybird.exe 
