@@ -5,9 +5,9 @@ gamefile = main.cpp
 ifdef OS
 	   exe = flappybird.exe
 
-	   comp = -Lwindows -lglew32 -lglfw3 -lopengl32 -lglu32 -lgdi32 -lsoil2 -o
+	   comp = -Lwindows -lglfw3 -lsoil2 -lglew32 -lopengl32 -lglu32 -lgdi32 -o
 
-	   inc = -Ilibraries/include
+	   inc = glad.c pipes.cpp bird.cpp ground.cpp shaderClass.cpp
 else
 	   ifeq ($(shell uname), Linux)
 		  exe = flappybird.exe 
@@ -17,7 +17,7 @@ else
 endif
 
 all:
-	$(CC) $(gamefile) $(comp) $(exe) 
+	$(CC) $(gamefile) $(comp) $(exe) $(inc)
 
 run: 
 	./$(exe)
