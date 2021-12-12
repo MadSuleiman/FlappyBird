@@ -12,8 +12,16 @@ else
 	   ifeq ($(shell uname), Linux)
 		  exe = flappybird.exe 
 
-		  comp = ./libraries/lib/glfw3.lib ./libraries/lib/soil2.lib -lGl -o
+		  comp =
+		else
+			exe += -o flappybird.o
+
+			comp += -Lmac -lsoil2-debug -framework Cocoa -framework IOKit -lglfw3arm -framework GLUT -framework OpenGL 
+			
+			inc += glad.c
+		  
 	   endif
+	   
 endif
 
 all:
