@@ -1,11 +1,11 @@
 CC = g++
 
-gamefile = main.cpp
+gamefile = flappybird.cpp
 
 ifdef OS
-	   exe = flappybird.exe
+	   exe = -o flappybird.exe
 
-	   comp = -Lwindows -lglfw3 -lsoil2 -lglew32 -lopengl32 -lglu32 -lgdi32 -o
+	   comp = -Lwindows -lsoil2-debug -lglfw3 -lglew32 -lopengl32 -lgdi32 -lglu32
 
 	   inc = glad.c
 else
@@ -17,7 +17,7 @@ else
 endif
 
 all:
-	$(CC) $(gamefile) $(comp) $(exe) $(inc)
+	$(CC) $(gamefile) $(exe) $(inc) $(comp)
 
 run: 
 	./$(exe)

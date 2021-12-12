@@ -152,7 +152,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="glad.c" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="flappybird.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="bird.png" />

@@ -1,7 +1,8 @@
 #include<iostream>
 #include"Libraries/include/glad/glad.h"
 #include"Libraries/include/GLFW/glfw3.h"
-#include"Libraries/include/SOIL2/SOIL2.h"
+// #include"Libraries/include/SOIL2/SOIL2.h"
+// #include"Libraries/include/SOIL/SOIL.h"
 
 class generic {
 public:
@@ -27,6 +28,7 @@ generic::generic(const char* fileName, float place[]) {
 		SOIL_CREATE_NEW_ID,
 		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT
 	);
+
 	for (int i = 0; i < 20; i++) {
 		vertices[i] = place[i];
 	}
