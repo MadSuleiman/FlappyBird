@@ -10,9 +10,11 @@ ifdef OS
 	   inc = glad.c
 else
 	   ifeq ($(shell uname), Linux)
-		  exe = flappybird.exe 
+		  exe = -o flappybird.o 
 
-		  comp =
+		  comp = -Lwindows -lsoil2-debug -lglfw3 -lglew32 -lopengl32 -lgdi32 -lglu32
+
+		  inc = glad.c
 		else
 			exe += -o flappybird.o
 
