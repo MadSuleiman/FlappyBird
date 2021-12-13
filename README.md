@@ -16,3 +16,10 @@ CD into the main folder of the project and run make. The make file should detect
 Mac
 
 CD into the main folder of the project and run make. The make file should detect your operating system and compile accordingly. After compiling, run ./flappybird.o in your terminal
+
+
+Game
+
+The design of this game is simple, get through the pipes, touch one, die. 
+
+The speed is highly volatile and depends on the system running it, where my laptop runs at a face pace while some may run slow. Speeds can be altered to match the speed of machine. We hope to automate this soon.

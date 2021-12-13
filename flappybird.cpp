@@ -12,6 +12,7 @@
 
 bool gameStart = false;
 bool gameEnd = false;
+void jump(bird* b);
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
@@ -27,14 +28,15 @@ void processInput(GLFWwindow* window, bird* b) {
 			glfwSetTime(0);
 			gameStart = true;
 		}
+		jump(b);
 	}
 	if (gameStart) {
-		if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
-			b->reinit(-b->gravity);
-		}
-		if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
-			b->reinit((b->gravity));
-		}
+		// if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
+		// 	b->reinit(-b->gravity);
+		// }
+		// if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
+		// 	b->reinit((b->gravity));
+		// }
 	}
 
 }
@@ -106,18 +108,31 @@ void displayFunc(bird b, ground g, pipes p, pipes p2, generic clouds) {
 	glBindVertexArray(0);
 	
 }
-void addSpeed(pipes* p, pipes* p2) {
-	p->speed = 0.0002f + float(glfwGetTime()/10000);
-	p2->speed = 0.0002f + float(glfwGetTime()/10000);
+//Function used to implement a 'jump' for the bird. alters the bird's gravity
+void jump(bird* b){
+	glfwSetTime(0);
+	b->gravity = -0.001f;	
 }
+//function serves to implement pipe speed and gravity. Can be easily changed for a differnet gaming experience.
+void addSpeed(pipes* p, pipes* p2, bird* b) {
+	// p->speed = 0.0002f + float(glfwGetTime()/10000);
+	// p2->speed = 0.0002f + float(glfwGetTime()/10000);
+	p->speed = 0.0005f;
+	p2->speed = 0.0005f;
+	b->gravity += 0.000005f;
+}
+//function to change our booleans
 void endGame() {
 	gameStart = false;
 	gameEnd = true;
 }
-void moveObjects(pipes* p, pipes* p2) {
+//changes our vertices with updated values, so that when drawn, the next frame shows the updated graphic
+void moveObjects(pipes* p, pipes* p2, bird* b) {
 	p->reinit();
 	p2->reinit();
+	b->reinit(b->gravity);
 }
+//Our collision checker.
 void checkCollision(bird* b, pipes* p, pipes* p2) {
 	//checks if the right corners of the bird are the the same as the pipes
 	if ((b->vertices[0] >= p->vertices[15] && b->vertices[0] <= p->vertices[0])) {
@@ -146,6 +161,7 @@ void checkCollision(bird* b, pipes* p, pipes* p2) {
 }
 
 int main() {
+	//Initialize glfw, our window opening library.
 	glfwInit();
 
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -224,14 +240,15 @@ int main() {
 		
 		ourShader.Activate();
 		
+		//scene selection
 		if(!gameStart && !gameEnd)
 			displayStart(logo, btn);
 		if (!gameEnd) {
 			displayFunc(*b, g, *p, *p2, clouds);
 			if (gameStart) {
-				moveObjects(p, p2);
+				moveObjects(p, p2, b);
 				checkCollision(b, p, p2);
-				addSpeed(p, p2);
+				addSpeed(p, p2, b);
 			}
 		}
 		else {
