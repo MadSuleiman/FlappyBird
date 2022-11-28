@@ -198,7 +198,7 @@ int main() {
 		-0.40f, 0.40f, 0.0f,     0.0f, 0.0f,   // bottom left
 		-0.40f,  0.70f, 0.0f,     0.0f, 1.0f    // top left 
 	};
-	generic logo("logo.png", v1);
+	generic logo("./textures/logo.png", v1);
 	float v2[20] = {
 		// positions          // texture coords
 		0.2f,  -0.30f, 0.0f,      1.0f, 1.0f,   // top right
@@ -206,7 +206,7 @@ int main() {
 		-0.20f, -0.60f, 0.0f,     0.0f, 0.0f,   // bottom left
 		-0.20f,  -0.30f, 0.0f,     0.0f, 1.0f    // top left 
 	};
-	generic btn("playbtn.png", v2);
+	generic btn("./textures/playbtn.png", v2);
 	float v3[20] = {
 		// positions          // texture coords
 		1.0f,  1.0f, 0.0f,      1.0f, 1.0f,   // top right
@@ -214,7 +214,7 @@ int main() {
 		-1.0f, -1.0f, 0.0f,     0.0f, 0.0f,   // bottom left
 		-1.0f,  1.0f, 0.0f,     0.0f, 1.0f    // top left 
 	};
-	generic end("died.jpg", v3);
+	generic end("./textures/died.jpg", v3);
 	float v4[20] = {
 		// positions          // texture coords
 		1.0f,  1.0f, 0.0f,      1.0f, 1.0f,   // top right
@@ -222,7 +222,7 @@ int main() {
 		-1.0f, 0.6f, 0.0f,     0.0f, 0.0f,   // bottom left
 		-1.0f,  1.0f, 0.0f,     0.0f, 1.0f    // top left 
 	};
-	generic clouds("clouds.gif", v4);
+	generic clouds("./textures/clouds.gif", v4);
 
 
 	//Create our objects for the three main sprites.
