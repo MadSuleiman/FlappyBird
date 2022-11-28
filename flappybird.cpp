@@ -3,10 +3,10 @@
 #include"Libraries/include/KHR/khrplatform.h"
 #include"Libraries/include/GLFW/glfw3.h"
 #include"shaderClass.h"
-#include"bird.h"
-#include"pipes.h"
-#include"ground.h"
-#include"generic.h"
+#include"./objects/bird.h"
+#include"./objects/pipes.h"
+#include"./objects/ground.h"
+#include"./objects/generic.h"
 #include<ctime>
 
 
@@ -133,31 +133,30 @@ void moveObjects(pipes* p, pipes* p2, bird* b) {
 	b->reinit(b->gravity);
 }
 //Our collision checker.
-void checkCollision(bird* b, pipes* p, pipes* p2) {
+void checkCollision(bird* b, pipes* p, pipes* p2, ground g) {
 	//checks if the right corners of the bird are the the same as the pipes
-	if ((b->vertices[0] >= p->vertices[15] && b->vertices[0] <= p->vertices[0])) {
+	if (b->vertices[0] >= p->vertices[15] && b->vertices[0] <= p->vertices[0]) {
 		//if it is, check if the correct height is met.
-		if (b->vertices[1] <= p->vertices[16] - 0.98f && b->vertices[1] >= p->vertices[16] - 1.45f) {
-			/*p->speed = 0.0005f; 
-			p2->speed = 0.0005f;*/
-		} else {
+		if (!(b->vertices[1] <= p->vertices[16] - 0.98f && b->vertices[1] >= p->vertices[16] - 1.45f)) {
 			p->speed = 0.0f; //This is where you would add a gameover screen
 			p2->speed = 0.0f;
 			endGame();
 		}
 	}
-	if ((b->vertices[0] >= p2->vertices[15] && b->vertices[0] <= p2->vertices[0])) {
+	if (b->vertices[0] >= p2->vertices[15] && b->vertices[0] <= p2->vertices[0]) {
 		//if it is, check if the correct height is met.
-		if (b->vertices[1] <= p2->vertices[16] - 0.98f && b->vertices[1] >= p2->vertices[16] - 1.45f) {
-			/*p->speed = 0.0005f;
-			p2->speed = 0.0005f;*/
-		}
-		else {
+		if (!(b->vertices[1] <= p2->vertices[16] - 0.98f && b->vertices[1] >= p2->vertices[16] - 1.45f))  {
 			p->speed = 0.0f; //This is where you would add a gameover screen
 			p2->speed = 0.0f;
 			endGame();
 		}
 	}
+	if (b->vertices[6] <= -0.69f) {
+		p->speed = 0.0f; //This is where you would add a gameover screen
+		p2->speed = 0.0f;
+		endGame();
+	}
+
 }
 
 int main() {
@@ -209,10 +208,10 @@ int main() {
 	generic btn("./textures/playbtn.png", v2);
 	float v3[20] = {
 		// positions          // texture coords
-		1.0f,  1.0f, 0.0f,      1.0f, 1.0f,   // top right
-		1.0f, -1.0f, 0.0f,      1.0f, 0.0f,   // bottom right
-		-1.0f, -1.0f, 0.0f,     0.0f, 0.0f,   // bottom left
-		-1.0f,  1.0f, 0.0f,     0.0f, 1.0f    // top left 
+		0.25f,  1.0f, 0.0f,      1.0f, 1.0f,   // top right
+		0.25f, 0.5f, 0.0f,      1.0f, 0.0f,   // bottom right
+		-0.25f, 0.5f, 0.0f,     0.0f, 0.0f,   // bottom left
+		-0.25f,  1.0f, 0.0f,     0.0f, 1.0f    // top left 
 	};
 	generic end("./textures/died.jpg", v3);
 	float v4[20] = {
@@ -247,7 +246,7 @@ int main() {
 			displayFunc(*b, g, *p, *p2, clouds);
 			if (gameStart) {
 				moveObjects(p, p2, b);
-				checkCollision(b, p, p2);
+				checkCollision(b, p, p2, g);
 				addSpeed(p, p2, b);
 			}
 		}

@@ -1,13 +1,18 @@
 #include<iostream>
-#include"Libraries/include/glad/glad.h"
-#include"Libraries/include/GLFW/glfw3.h"
-// #include"Libraries/include/SOIL2/SOIL2.h"
-// #include"Libraries/include/SOIL/SOIL.h"
+#include"../Libraries/include/glad/glad.h"
+#include"../Libraries/include/GLFW/glfw3.h"
+#include"../Libraries/include/SOIL2/SOIL2.h"
 
-class generic {
+class ground {
 public:
-
-	float vertices[20];
+	
+	float vertices[20] = {
+		// positions        // texture coords
+		1.0f,  -0.70f, 0.0f,    1.0f, 1.0f,   // top right
+		1.0f, -1.0f, 0.0f,      1.0f, 0.0f,   // bottom right
+		-1.0f, -1.0f, 0.0f,     0.0f, 0.0f,   // bottom left
+		-1.0f,  -0.7f, 0.0f,    0.0f, 1.0f    // top left  
+	};
 
 	unsigned int indices[6] = {
 	   0, 1, 3, // first triangle
@@ -15,23 +20,20 @@ public:
 	};
 	unsigned int VAO, VBO, EBO;
 	GLuint texture;
-	generic(const char* fileName, float place[]);
-	void reinit(float speed);
+	ground();
+	void reinit();
 	void del();
 };
 
-generic::generic(const char* fileName, float place[]) {
+ground::ground() {
 	texture = SOIL_load_OGL_texture
 	(
-		fileName,
+		"./textures/ground.png",
 		SOIL_LOAD_AUTO,
 		SOIL_CREATE_NEW_ID,
 		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT
 	);
 
-	for (int i = 0; i < 20; i++) {
-		vertices[i] = place[i];
-	}
 
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
@@ -53,7 +55,7 @@ generic::generic(const char* fileName, float place[]) {
 	glEnableVertexAttribArray(1);
 }
 
-void generic::del() {
+void ground::del() {
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
 }
