@@ -111,15 +111,15 @@ void displayFunc(bird b, ground g, pipes p, pipes p2, generic clouds) {
 //Function used to implement a 'jump' for the bird. alters the bird's gravity
 void jump(bird* b){
 	glfwSetTime(0);
-	b->gravity = -0.001f;	
+	b->gravity = -0.01f;	
 }
 //function serves to implement pipe speed and gravity. Can be easily changed for a differnet gaming experience.
 void addSpeed(pipes* p, pipes* p2, bird* b) {
 	// p->speed = 0.0002f + float(glfwGetTime()/10000);
 	// p2->speed = 0.0002f + float(glfwGetTime()/10000);
-	p->speed = 0.0005f;
-	p2->speed = 0.0005f;
-	b->gravity += 0.000005f;
+	p->speed = 0.005f;
+	p2->speed = 0.005f;
+	b->gravity += 0.0005f;
 }
 //function to change our booleans
 void endGame() {
